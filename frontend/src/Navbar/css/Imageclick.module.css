@@ -1,0 +1,21 @@
+.add{
+    height: 40px;
+    width: 250px;
+    background-color: rgb(171, 231, 80);
+    color: white
+}
+.heart{
+    font-size: 39px;
+    width: 30px;
+    height: 30px;
+}
+.buy{
+    height: 40px;
+    width: 290px;
+    
+    color: white
+}
+.right{
+    margin-right: 500px;
+    margin-top: 30px;
+}
