@@ -33,10 +33,9 @@ function App() {
       <Route path='/dryfruits' element={<Dryfruits />} />
       <Route path="/localfruits" element={<Localfruits />} />
       <Route path="/cart" element={<AddtoCart />}  />
-     
-
+      <Route path="/footer" element={<Footer />} />
     </Routes>
-   
+   <Footer />
    </Router>
     </div>
   );

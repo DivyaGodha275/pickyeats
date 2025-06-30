@@ -3,16 +3,21 @@ import {Container,Row,Col} from 'react-bootstrap'
 
 function Footer() {
   return (
-    <Container>
-      <Row>
+    <Container fluid>
+      <Row className='border'>
         <Col>
-        <div>
-            <h3>Download App</h3>
-            <h3>Quick links</h3>
-            <h3>Site Links</h3>
-        </div>
 
         </Col>
+        <Col>
+        <h6>Download app</h6>
+        </Col>
+        <Col>
+        <h6>Quick Links</h6>
+        <a> Know More about Us</a>
+        <a> Know More about Us</a>
+        </Col>
+        <Col></Col>
+        <Col></Col>
       </Row>
     </Container>
   )
