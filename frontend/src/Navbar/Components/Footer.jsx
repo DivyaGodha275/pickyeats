@@ -13,10 +13,14 @@ function Footer() {
         </Col>
         <Col>
         <h6>Quick Links</h6>
-        <a> Know More about Us</a>
-        <a> Know More about Us</a>
+        <a href="#"> Know More about Us</a><br />
+        <a href="#">Visite Store</a>
+        <a href="#">Lets Connect</a>
+        <a href="#">Know our process</a>
         </Col>
-        <Col></Col>
+        <Col>
+        <h6></h6>
+        </Col>
         <Col></Col>
       </Row>
     </Container>

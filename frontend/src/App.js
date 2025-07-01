@@ -11,6 +11,8 @@ import Dryfruits from './Navbar/Components/Dryfruits';
 import AddtoCart from './Navbar/Components/AddtoCart';
 import Localfruits from './Navbar/Components/LocalFruits';
 import Footer from './Navbar/Components/Footer';
+import Login from './Navbar/Components/Login';
+import Registration from './Navbar/Components/Registration'
 
 function App() {
   const [cartCount, setCartCount] = useState(0);
@@ -33,9 +35,10 @@ function App() {
       <Route path='/dryfruits' element={<Dryfruits />} />
       <Route path="/localfruits" element={<Localfruits />} />
       <Route path="/cart" element={<AddtoCart />}  />
-      <Route path="/footer" element={<Footer />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Registration />} />
+      
     </Routes>
-   <Footer />
    </Router>
     </div>
   );

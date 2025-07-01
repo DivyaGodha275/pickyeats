@@ -16,11 +16,12 @@ import { PiShoppingCartFill } from "react-icons/pi";
 import { IoMdContact } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
-import Registration from "./Registration";
+
 
 function CustomNavbar({ cartCount }) {
   const [totalCartCount, setTotalCartCount] = useState(0);
-  const [showCart, setShowCart] = useState(false);
+
+  
 
   const [show, setShow] = useState(false);
 
@@ -30,10 +31,16 @@ function CustomNavbar({ cartCount }) {
   const navigate = useNavigate();
 
   const handleAdd = () => {
-    // ✅ hide Cards
     navigate("/cart");
-     // ✅ go to next component
   };
+
+  const handlelogin=()=>{
+    navigate("/login")
+  }
+  const handleregister=()=>{
+    navigate("/register");
+  }
+  
 
   const handleQuantityChange = (newQuantity, productId) => {
     
@@ -119,18 +126,18 @@ function CustomNavbar({ cartCount }) {
                     style={{ marginRight: "10px", cursor: "pointer" }}
                   />
 
-                  <p onClick={handleShow} style={{ cursor: "pointer" }}>
+                  <p  style={{ cursor: "pointer" }} onClick={handlelogin} >
                     Login
                   </p>
-                  <Login show={show} handleClose={handleClose} />
+                  
                   <p
-                    onClick={handleShow}
+                    onClick={handleregister}
                     className="ms-4"
                     style={{ cursor: "pointer" }}
                   >
                     Register
                   </p>
-                  <Registration show={show} handleClose={handleClose} />
+                  
                 </Col>
               </Navbar.Collapse>
             </Container>

@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import {Button,Form,Modal,Col,Row} from 'react-bootstrap';
+import {Button,Form,Modal,Col,Row,Container} from 'react-bootstrap';
 
 
-function Registration({ show, handleClose }) {
+function Registration() {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+      <Container className='border border-5 rounded w-25 ' style={{marginTop:'90px'}} >
+        <Row closeButton>
           <Modal.Title>Registartion Form</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+        </Row>
+        <div>
             <Form.Group md="4" controlId="validationCustom01">
-            <Form.Label>First name</Form.Label>
+            <p className='text-start'>First name</p>
             <Form.Control
                 required
                 type="text"
@@ -21,7 +21,7 @@ function Registration({ show, handleClose }) {
             />
             </Form.Group>
                <Form.Group md="4" controlId="validationCustom01">
-            <Form.Label>Last Name</Form.Label>
+            <p className='text-start'>Last Name</p>
             <Form.Control
                 required
                 type="text"
@@ -30,7 +30,7 @@ function Registration({ show, handleClose }) {
             />
             </Form.Group>
                   <Form.Group md="4" controlId="validationCustom01">
-            <Form.Label>Mobile Number</Form.Label>
+            <p className='text-start'>Mobile Number</p>
             <Form.Control
                 required
                 type="number"
@@ -38,7 +38,7 @@ function Registration({ show, handleClose }) {
             />
             </Form.Group>
                   <Form.Group md="4" controlId="validationCustom01">
-            <Form.Label>Enter Email</Form.Label>
+            <p className='text-start'>Enter Email</p>
             <Form.Control
                 required
                 type="text"
@@ -47,16 +47,16 @@ function Registration({ show, handleClose }) {
             />
             </Form.Group>
         
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+        </div>
+        <div className='d-flex gap-2 justify-content-end mt-2 mb-2'>
+          <Button variant="secondary" >
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Login
+          <Button variant="primary" >
+            Submit
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </div>
+      </Container>
     </>
   );
 }
