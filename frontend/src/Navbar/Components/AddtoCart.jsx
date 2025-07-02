@@ -1,67 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import pinapple from '../../assests/pinapple.webp';
-import kiwi from '../../assests/Kiwi.webp'
-import plum from '../../assests/plum.jpeg'
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  increaseQuantity,
+  decreaseQuantity,
+  removeFromCart,
+} from '../../Dashboard/cartSlice';
 import cart from '../css/AddtoCart.module.css';
 
 function AddtoCart() {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Pineapple Fruit Bowl [500 g]", price: 50, quantity: 1, image: pinapple },
-    { id: 2, name: "kiwi Fruit Bowl2 [500 g]", price: 90, quantity: 1, image: kiwi },
-     { id: 2, name: "Plums Fruit Bowl3 [500 g]", price: 100, quantity: 1, image: plum }
-  ]);
+  const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
-  const increaseQuantity = (id) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const handleIncrease = (id) => {
+    dispatch(increaseQuantity(id));
   };
 
-  const decreaseQuantity = (id) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
+  const handleDecrease = (id) => {
+    dispatch(decreaseQuantity(id));
   };
 
   const handleDelete = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+    dispatch(removeFromCart(id));
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
     <Container className="my-4">
-      {/* Banner */}
       <Row className="mb-3">
         <Col>
           <h5 className="text-success">Free delivery on Orders ₹350 & above</h5>
         </Col>
       </Row>
 
-      {/* Header */}
       <Row className="mb-2 align-items-center">
         <Col xs={6}>
           <h5 className="mb-0">My Cart</h5>
         </Col>
-        <Col xs={6} className="text-end">
-          <p className="text-primary mb-0" style={{ cursor: 'pointer' }}>
-            Continue browsing
-          </p>
+        <Col xs={6} className="text-end text-primary" style={{ cursor: 'pointer' }}>
+          Continue browsing
         </Col>
       </Row>
 
       <hr />
 
       <Row className={`mb-3 ${cart.cartItem}`}>
-        {/* Cart Items */}
         <Col md={8}>
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
@@ -71,24 +59,24 @@ function AddtoCart() {
                 <div className="d-flex align-items-center mb-3">
                   <img
                     src={item.image}
-                    alt="product"
+                    alt={item.name}
                     className={`img-fluid me-3 ${cart.image}`}
                     style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                   />
                   <div style={{ flex: 1 }}>
-                    <p className="mb-1 fw-bold">{item.name}</p>
+                    <p className="fw-bold mb-1">{item.name}</p>
                     <p className="text-muted mb-2">₹{item.price}</p>
                     <div className="d-flex align-items-center">
                       <button
                         className="btn btn-outline-secondary btn-sm me-2"
-                        onClick={() => decreaseQuantity(item.id)}
+                        onClick={() => handleDecrease(item.id)}
                       >
                         -
                       </button>
                       <span>{item.quantity}</span>
                       <button
                         className="btn btn-outline-secondary btn-sm ms-2 me-3"
-                        onClick={() => increaseQuantity(item.id)}
+                        onClick={() => handleIncrease(item.id)}
                       >
                         +
                       </button>

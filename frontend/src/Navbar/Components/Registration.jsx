@@ -6,13 +6,13 @@ function Registration() {
 
   return (
     <>
-      <Container className='border border-5 rounded w-25 ' style={{marginTop:'90px'}} >
+      <Container className='border border-5 rounded w-25 mb-5 p-3' style={{marginTop:'90px'}} >
         <Row closeButton>
           <Modal.Title>Registartion Form</Modal.Title>
         </Row>
         <div>
             <Form.Group md="4" controlId="validationCustom01">
-            <p className='text-start'>First name</p>
+            <Form.Label className='text-start'>First name</Form.Label>
             <Form.Control
                 required
                 type="text"
@@ -21,7 +21,7 @@ function Registration() {
             />
             </Form.Group>
                <Form.Group md="4" controlId="validationCustom01">
-            <p className='text-start'>Last Name</p>
+            <Form.Label className='text-start'>Last Name</Form.Label>
             <Form.Control
                 required
                 type="text"
@@ -30,7 +30,7 @@ function Registration() {
             />
             </Form.Group>
                   <Form.Group md="4" controlId="validationCustom01">
-            <p className='text-start'>Mobile Number</p>
+            <Form.Label className='text-start'>Mobile Number</Form.Label>
             <Form.Control
                 required
                 type="number"
@@ -38,7 +38,7 @@ function Registration() {
             />
             </Form.Group>
                   <Form.Group md="4" controlId="validationCustom01">
-            <p className='text-start'>Enter Email</p>
+            <Form.Label className='text-start'>Enter Email</Form.Label>
             <Form.Control
                 required
                 type="text"

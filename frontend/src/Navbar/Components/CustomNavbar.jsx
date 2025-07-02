@@ -16,23 +16,18 @@ import { PiShoppingCartFill } from "react-icons/pi";
 import { IoMdContact } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
+import logo from '../../assests/Freshbar/logo.jpg'
 
 
 function CustomNavbar({ cartCount }) {
   const [totalCartCount, setTotalCartCount] = useState(0);
 
-  
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const navigate = useNavigate();
 
-  const handleAdd = () => {
-    navigate("/cart");
-  };
+const handleAdd = () => {
+  
+  navigate("/cart");              
+};
 
   const handlelogin=()=>{
     navigate("/login")
@@ -55,11 +50,13 @@ function CustomNavbar({ cartCount }) {
             <Container fluid>
               <Navbar.Collapse id="navbarScroll">
                 <Col>
+                
                   <Nav
                     className="me-auto my-2 my-lg-0"
                     style={{ maxHeight: "100px" }}
                     navbarScroll
                   >
+                    <img src={logo} style={{width:'50px',height:'50px'}} className=" ms-5" />
                     <Nav.Link href="/" className="ms-5">
                       Home
                     </Nav.Link>
@@ -100,26 +97,26 @@ function CustomNavbar({ cartCount }) {
                     />
                   </Form>
                   <div style={{ position: "relative", marginRight: "20px" }}>
-                    <PiShoppingCartFill
-                      className="fs-3 text-success"
-                      onClick={handleAdd}
-                      style={{ cursor: "pointer" }}
-                    />
-                    {cartCount > 0 && (
-                      <Badge
-                        pill
-                        bg="danger"
-                        style={{
-                          position: "absolute",
-                          top: "-8px",
-                          right: "-10px",
-                          fontSize: "0.75rem",
-                        }}
-                      >
-                        {cartCount}
-                      </Badge>
-                    )}
-                  </div>
+  <PiShoppingCartFill
+    className="fs-3 text-success"
+    onClick={handleAdd}
+    style={{ cursor: "pointer" }}
+  />
+  {cartCount > 0 && (
+    <Badge
+      pill
+      bg="danger"
+      style={{
+        position: "absolute",
+        top: "-8px",
+        right: "-10px",
+        fontSize: "0.75rem",
+      }}
+    >
+      {cartCount}
+    </Badge>
+  )}
+</div>
 
                   <IoMdContact
                     className="fs-3 text-success"

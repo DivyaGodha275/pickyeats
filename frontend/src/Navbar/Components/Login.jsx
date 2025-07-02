@@ -1,46 +1,104 @@
-import { useState } from 'react';
-import {Button,Form,Modal,Col,Row,Container} from 'react-bootstrap';
-
-
-function Login() {
-
+import React, { useState, useEffect } from 'react';
+import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+// import api from '../utils/axiosInstance';
+//  import axios from 'axios';
+ 
+const Login = ({ setToken, setRole }) => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+ 
+  // ✅ Show error for full 60 seconds
+  // useEffect(() => {
+  //   if (!error) return;
+  //   console.log('Error set:', error);  // Debug
+  //   const timer = setTimeout(() => {
+  //     console.log('Clearing error');
+  //     setError('');
+  //   }, 5000); // 60 seconds
+  //   return () => clearTimeout(timer);
+  // }, [error]);
+ 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+ 
+  //   try {
+  //     const response = await axios.post('lms/login/', {
+  //       username,
+  //       password,
+  //     });
+ 
+  //     const { access, refresh, role } = response.data;
+ 
+  //     localStorage.setItem('access', access);
+  //     localStorage.setItem('refresh', refresh);
+  //     localStorage.setItem('role', role);
+ 
+  //     setToken(access);
+  //     setRole(role);
+  //     navigate('/dashboard');
+  //   } catch (error) {
+  //     if (error.response) {
+  //       const message = error.response.data?.detail || 'Invalid credentials';
+  //       if (/no active account/i.test(message)) {
+  //         setError('User does not exist with the provided credentials.');
+  //       } else if (error.response.status === 401) {
+  //         setError(message);
+  //       } else {
+  //         setError('An unexpected error occurred. Please try again.');
+  //       }
+  //     } else {
+  //       setError('Server is unreachable. Please check your connection.');
+  //     }
+  //   }
+  // };
+ 
   return (
-    <>
-      <Container className='border border-5 rounded w-25 ' style={{marginTop:'100px'}}>
-        <Row >
-          <h4 className='text-success mt-3'>Login Form</h4>
-        </Row>
-        <div>
-            <Form.Group md="4" controlId="validationCustom01">
-            <p className='text-start'>Username name</p>
+    <div className='d-flex justify-content-center align-items-center'>
+      <Card className="p-4 mt-4 w-100" style={{ maxWidth: '500px' }}>
+        <h3 className="text-center mb-3">Login</h3>
+ 
+        {/* ✅ Dismissible alert (optional) */}
+        {error && (
+          <Alert variant="danger" onClose={() => setError('')} dismissible>
+            {error}
+          </Alert>
+        )}
+ 
+        <Form >
+          <Form.Group className="mb-3">
+            <Form.Label>Username</Form.Label>
             <Form.Control
-                required
-                type="text"
-                placeholder="user name"
-                
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="username"
             />
-            </Form.Group>
-               <Form.Group md="4" controlId="validationCustom01">
-            <p className='text-start'>password</p>
+          </Form.Group>
+ 
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
             <Form.Control
-                required
-                type="text"
-                placeholder="Enter password"
-                
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
             />
-            </Form.Group>
-        
-        </div>
-        <div className='d-flex gap-2 justify-content-end mt-2 mb-2'>
-          <Button variant="secondary" >
-            Close
-          </Button>
-          <Button variant="primary">
-            Login
-          </Button>
-        </div>
-      </Container>
-    </>
+          </Form.Group>
+ 
+          <Button variant="success" type="submit" className="w-100">Login</Button>
+        </Form>
+      </Card>
+    </div>
   );
-}
+};
+ 
 export default Login;
+ 
+ 

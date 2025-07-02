@@ -5,7 +5,8 @@ import Imported from './Imported';
 import Localfruits from './LocalFruits';
 import Freshfruits from './Freshfruits';
 import Dryfruits from './Dryfruits';
-
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import cards from '../css/Cards.module.css'
 function Cards() {
   const navigate = useNavigate();
 
@@ -22,7 +23,8 @@ function Cards() {
       </Row>
 
       {/* These sections only show when on home page ("/") */}
-      <h4 className="mt-4">Imported Fruits</h4>
+     <Row className='mb-5'>
+       <h4 className="mt-4">Imported Fruits</h4>
       <Imported />
       <h4 className="mt-4">Local Fruits</h4>
       <Localfruits />
@@ -30,6 +32,8 @@ function Cards() {
       <Freshfruits />
       <h4 className="mt-4">Dry Fruits</h4>
       <Dryfruits />
+     </Row>
+
     </Container>
   );
 }

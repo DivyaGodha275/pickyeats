@@ -17,28 +17,31 @@ import Registration from './Navbar/Components/Registration'
 function App() {
   const [cartCount, setCartCount] = useState(0);
 
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-  };
+const handleAddToCart = () => {
+  console.log("Item added to cart");
+  setCartCount(prev => prev + 1);
+};
+
   return (
     <div className="App">
-      <button onClick={() => setCartCount(prev => prev + 1)}>Test Add to Cart</button>
+      
 
 
    <Router>
-       <CustomNavbar cartCount={cartCount} />      
+       <CustomNavbar cartCount={cartCount} setCartCount={setCartCount} />      
     <Routes>
         <Route path="/" element={<Cards />} />
       <Route path="/imported" element={<Imported onAddToCartGlobal={handleAddToCart} />} />
       <Route path="/freshfruits" element= {<Freshfruits />} />
-      <Route path="/imageclick" element={<Imageclick />} />
+      <Route path="/imageclick" element={<Imageclick onAddToCartGlobal={handleAddToCart}/>} />
       <Route path='/dryfruits' element={<Dryfruits />} />
       <Route path="/localfruits" element={<Localfruits />} />
       <Route path="/cart" element={<AddtoCart />}  />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Registration />} />
-      
+      <Route path="/footer" element={<Footer />} />
     </Routes>
+    <Footer />
    </Router>
     </div>
   );
