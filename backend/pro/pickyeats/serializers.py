@@ -26,6 +26,11 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username','first_name','last_name','email']
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 
 class AddressSerializer(serializers.ModelSerializer):
     phno = serializers.CharField(required=True, allow_null=False, allow_blank=False,
@@ -64,3 +69,55 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = '__all__'
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(),
+        source='product',
+        write_only=True
+    )
+
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'product', 'product_id', 'quantity', 'price_at_purchase', 'subtotal']
+        read_only_fields = ['subtotal']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True)
+    user = UserSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        source='user',
+        write_only=True
+    )
+
+    class Meta:
+        model = Order
+        fields = ['id', 'oid', 'user', 'user_id', 'status', 'order_date', 'total_amount', 'items']
+        read_only_fields = ['oid', 'order_date', 'total_amount']
+
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+        order = Order.objects.create(**validated_data)
+
+        total = 0
+        for item_data in items_data:
+            product = item_data['product']
+            quantity = item_data['quantity']
+            price = item_data['price_at_purchase']
+
+            OrderItem.objects.create(order=order, product=product, quantity=quantity, price_at_purchase=price)
+            total += quantity * price
+
+        order.total_amount = total
+        order.save()
+        return order

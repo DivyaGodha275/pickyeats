@@ -46,3 +46,41 @@ class Product(models.Model):
 
     def __str__(self):
         return self.pname
+    
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    oid = models.CharField(max_length=10, unique=True)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    order_date = models.DateTimeField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    def save(self, *args, **kwargs):
+        if not self.oid:
+            last = Order.objects.order_by('-id').first()
+            last_number = int(re.search(r'\\d+', last.oid).group()) + 1 if last and last.oid else 1
+            self.oid = f'O{last_number:04d}'
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Order {self.oid} by {self.customer.name}"
+    
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.DecimalField(max_digits=5, decimal_places=2)
+    price_at_purchase = models.DecimalField(max_digits=7, decimal_places=2)
+
+    def subtotal(self):
+        return self.quantity * self.price_at_purchase
+
+    def __str__(self):
+        return f"{self.product.pname} x {self.quantity} in {self.order.oid}"
+
