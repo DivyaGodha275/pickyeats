@@ -9,11 +9,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username','password']
+        fields = ['username', 'email', 'password']
 
     def create(self, validated_data):
         user = User(
-            username = validated_data['username']
+            username = validated_data['username'],
+            email = validated_data['email']
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -24,7 +25,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username','first_name','last_name','email']
-        
+
 
 class AddressSerializer(serializers.ModelSerializer):
     phno = serializers.CharField(required=True, allow_null=False, allow_blank=False,
