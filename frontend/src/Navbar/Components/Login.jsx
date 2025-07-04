@@ -1,104 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-// import api from '../utils/axiosInstance';
-//  import axios from 'axios';
- 
-const Login = ({ setToken, setRole }) => {
-  const navigate = useNavigate();
+import { useState } from 'react';
+import { Button, Form, Container, Row } from 'react-bootstrap';
+import axios from 'axios';
+
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
- 
-  // ✅ Show error for full 60 seconds
-  // useEffect(() => {
-  //   if (!error) return;
-  //   console.log('Error set:', error);  // Debug
-  //   const timer = setTimeout(() => {
-  //     console.log('Clearing error');
-  //     setError('');
-  //   }, 5000); // 60 seconds
-  //   return () => clearTimeout(timer);
-  // }, [error]);
- 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
- 
-  //   try {
-  //     const response = await axios.post('lms/login/', {
-  //       username,
-  //       password,
-  //     });
- 
-  //     const { access, refresh, role } = response.data;
- 
-  //     localStorage.setItem('access', access);
-  //     localStorage.setItem('refresh', refresh);
-  //     localStorage.setItem('role', role);
- 
-  //     setToken(access);
-  //     setRole(role);
-  //     navigate('/dashboard');
-  //   } catch (error) {
-  //     if (error.response) {
-  //       const message = error.response.data?.detail || 'Invalid credentials';
-  //       if (/no active account/i.test(message)) {
-  //         setError('User does not exist with the provided credentials.');
-  //       } else if (error.response.status === 401) {
-  //         setError(message);
-  //       } else {
-  //         setError('An unexpected error occurred. Please try again.');
-  //       }
-  //     } else {
-  //       setError('Server is unreachable. Please check your connection.');
-  //     }
-  //   }
-  // };
- 
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/pickyeats/login/', {
+        username: username,
+        password: password,
+      });
+
+      console.log('Login successful:', response.data);
+      alert('Login Successful');
+      // You can store token or navigate user here
+    } catch (error) {
+      console.error('Login failed:', error.response?.data || error.message);
+      alert('Login failed. Please check your credentials.');
+    }
+  };
+
   return (
-    <div className='d-flex justify-content-center align-items-center'>
-      <Card className="p-4 mt-4 w-100" style={{ maxWidth: '500px' }}>
-        <h3 className="text-center mb-3">Login</h3>
- 
-        {/* ✅ Dismissible alert (optional) */}
-        {error && (
-          <Alert variant="danger" onClose={() => setError('')} dismissible>
-            {error}
-          </Alert>
-        )}
- 
-        <Form >
-          <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
+    <>
+      <Container className='border border-5 rounded w-25 mb-5' style={{ marginTop: '100px' }}>
+        <Row>
+          <h4 className='text-success mt-3'>Login Form</h4>
+        </Row>
+        <Form>
+          <Form.Group controlId="formUsername">
+            <Form.Label>User Name</Form.Label>
             <Form.Control
+              required
               type="text"
-              placeholder="Enter username"
+              placeholder="User name"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
-              autoComplete="username"
             />
           </Form.Group>
- 
-          <Form.Group className="mb-3">
+
+          <Form.Group controlId="formPassword" className='mt-3'>
             <Form.Label>Password</Form.Label>
             <Form.Control
+              required
               type="password"
-              placeholder="Enter password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
             />
           </Form.Group>
- 
-          <Button variant="success" type="submit" className="w-100">Login</Button>
+
+          <div className='d-flex gap-2 justify-content-end mt-3 mb-2'>
+            <Button variant="success" onClick={handleLogin}>
+              Login
+            </Button>
+          </div>
         </Form>
-      </Card>
-    </div>
+      </Container>
+    </>
   );
-};
- 
+}
+
 export default Login;
- 
- 

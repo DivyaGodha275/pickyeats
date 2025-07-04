@@ -13,24 +13,28 @@ import Localfruits from './Navbar/Components/LocalFruits';
 import Footer from './Navbar/Components/Footer';
 import Login from './Navbar/Components/Login';
 import Registration from './Navbar/Components/Registration'
+import { BsDash } from 'react-icons/bs';
+import Dashboard from './Dashboard/Dashboard';
+import AdminAdditems from './Dashboard/AdminAdditems';
+import UpdateItem from './Dashboard/UpdateItem';
 
 function App() {
   const [cartCount, setCartCount] = useState(0);
+  
 
 const handleAddToCart = () => {
   console.log("Item added to cart");
   setCartCount(prev => prev + 1);
+
 };
 
   return (
     <div className="App">
       
-
-
    <Router>
        <CustomNavbar cartCount={cartCount} setCartCount={setCartCount} />      
     <Routes>
-        <Route path="/" element={<Cards />} />
+        {/* <Route path="/" element={<Cards />} />
       <Route path="/imported" element={<Imported onAddToCartGlobal={handleAddToCart} />} />
       <Route path="/freshfruits" element= {<Freshfruits />} />
       <Route path="/imageclick" element={<Imageclick onAddToCartGlobal={handleAddToCart}/>} />
@@ -40,9 +44,18 @@ const handleAddToCart = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Registration />} />
       <Route path="/footer" element={<Footer />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/additems" element={<Dashboard />} /> */}
+
+      <Route path="/" element={<AdminAdditems  />} />
+      <Route path="/edit/:id" element={<UpdateItem  />} />
+      
     </Routes>
-    <Footer />
+    {/* <Footer />
+    <Dashboard /> */}
+    
    </Router>
+   
     </div>
   );
 }
