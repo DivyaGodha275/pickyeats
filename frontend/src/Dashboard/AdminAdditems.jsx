@@ -1,4 +1,6 @@
-import  { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { Form } from "react-bootstrap";
 
 export default function AdminDashboard() {
   const [items, setItems] = useState([]);
@@ -11,21 +13,66 @@ export default function AdminDashboard() {
   const [editMode, setEditMode] = useState(false);
   const [editItem, setEditItem] = useState(null);
 
-  const handleAdd = () => {
-    if (form.name && form.price && form.quantity) {
-      const quantityNum = parseInt(form.quantity);
-      const status = quantityNum === 0 ? "Out of Stock" : "Available";
-      const newItem = {
-        id: Date.now(),
-        name: form.name,
-        price: form.price,
-        quantity: quantityNum,
-        status,
-        imageUrl: form.image ? URL.createObjectURL(form.image) : null,
-      };
-      setItems([...items, newItem]);
-      setForm({ name: "", price: "", quantity: "", image: null });
+  const handleAdd = async () => {
+    if (
+      form.name &&
+      form.price &&
+      form.quantity &&
+      form.image &&
+      form.category
+    ) {
+      const formData = new FormData();
+
+      formData.append("pname", form.name);
+      formData.append("price", form.price);
+      formData.append("quantity", form.quantity);
+      formData.append("image", form.image);
+      formData.append("category", form.category); // ✅ use actual value
+
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/pickyeats/products/",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const newItem = {
+          id: response.data.id,
+          name: response.data.pname,
+          price: response.data.price,
+          quantity: response.data.quantity,
+          status:
+            parseInt(response.data.quantity) === 0
+              ? "Out of Stock"
+              : "Available",
+          imageUrl: response.data.image,
+        };
+
+        setItems([...items, newItem]);
+        setForm({
+          name: "",
+          price: "",
+          quantity: "",
+          image: null,
+          category: "local",
+        });
+      } catch (error) {
+        console.log("Error response data:", error.response?.data);
+        console.error("Error adding item:", error);
+        alert("Failed to add product. Please check your form data.");
+      }
+    } else {
+      alert("Please fill all fields including category and image.");
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAdminLoggedIn");
+    window.location.href = "/login";
   };
 
   const handleEditClick = (item) => {
@@ -48,8 +95,11 @@ export default function AdminDashboard() {
             name: form.name,
             price: form.price,
             quantity: parseInt(form.quantity),
-            imageUrl: form.image ? URL.createObjectURL(form.image) : form.imageUrl,
-            status: parseInt(form.quantity) === 0 ? "Out of Stock" : "Available",
+            imageUrl: form.image
+              ? URL.createObjectURL(form.image)
+              : form.imageUrl,
+            status:
+              parseInt(form.quantity) === 0 ? "Out of Stock" : "Available",
           }
         : item
     );
@@ -61,10 +111,19 @@ export default function AdminDashboard() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="font-bold mb-4 text-green-700 mt-4">Fruit Bowl Admin Panel</h2>
+      <button
+        onClick={handleLogout}
+        className="bg-red-500 d-flex justify-content-end px-4 py-2 rounded "
+      >
+        Logout
+      </button>
+
+      <h2 className="font-bold mb-4 text-green-700 mt-4">
+        Fruit Bowl Admin Panel
+      </h2>
 
       {/* Add/Edit Form */}
-      <div className="grid grid-cols-1 md:grid-cols-5 items-center mb-6">
+      <div className="d-flex ms-5 gap-4 mb-6 w-full max-w-md">
         <input
           type="text"
           className="border border-dark p-2 me-4 rounded"
@@ -72,6 +131,17 @@ export default function AdminDashboard() {
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
+        <Form.Group>
+          <Form.Select
+            style={{ width: "130px" }}
+            value={form.category}
+            onChange={(e) => setForm({ ...form, category: e.target.value })}
+          >
+            <option value="local">Local</option>
+            <option value="imported">Imported</option>
+            <option value="dry_fruits">Dry</option>
+          </Form.Select>
+        </Form.Group>
         <input
           type="number"
           className="border border-dark me-4 p-2 rounded"
@@ -86,6 +156,7 @@ export default function AdminDashboard() {
           value={form.quantity}
           onChange={(e) => setForm({ ...form, quantity: e.target.value })}
         />
+
         <input
           type="file"
           accept="image/*"
@@ -100,7 +171,7 @@ export default function AdminDashboard() {
           </button>
         ) : (
           <button
-            onClick={handleAdd} 
+            onClick={handleAdd}
             className="bg-green-600 text-dark px-4 py-2 rounded"
           >
             Add Item
@@ -165,7 +236,7 @@ export default function AdminDashboard() {
                     onClick={() => handleEditClick(item)}
                     className="text-blue-600 underline"
                   >
-                    Save
+                    Update
                   </button>
                 </td>
               </tr>

@@ -10,7 +10,7 @@ router.register(r'orders', OrderViewSet)
 
 urlpatterns = [
     path('register/', RegistrationView.as_view()),
-    path('login/', LoginView.as_view()),
+    path('login/', CustomLoginView.as_view()),
     path('user/', UserInfoView.as_view()),
     path('user/update/', UserUpdateView.as_view()),
     path("logout/", LogoutView.as_view(), name="logout"),

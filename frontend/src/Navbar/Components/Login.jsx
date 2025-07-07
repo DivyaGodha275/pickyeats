@@ -1,26 +1,42 @@
 import { useState } from 'react';
 import { Button, Form, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/pickyeats/login/', {
-        username: username,
-        password: password,
-      });
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/pickyeats/login/', {
+      username,
+      password,
+    });
 
-      console.log('Login successful:', response.data);
-      alert('Login Successful');
-      // You can store token or navigate user here
-    } catch (error) {
-      console.error('Login failed:', error.response?.data || error.message);
-      alert('Login failed. Please check your credentials.');
+    const { is_superuser, is_active } = response.data;
+
+    if (!is_active) {
+      alert("Your account is inactive.");
+      return;
     }
-  };
+
+    // Store login and role info
+    localStorage.setItem("isAdminLoggedIn", "true");
+    localStorage.setItem("isSuperuser", is_superuser ? "true" : "false");
+
+    if (is_superuser) {
+      navigate("/admin");
+    } else {
+      navigate("/cards");  // customer view page
+    }
+  } catch (error) {
+    alert("Login failed. Check credentials.");
+  }
+};
+
 
   return (
     <>

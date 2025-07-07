@@ -7,3 +7,4 @@ from .models import *
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['id','pid','pname','price','quantity','category','image']
 
+    

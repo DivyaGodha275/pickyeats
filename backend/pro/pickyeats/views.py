@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import *
 from .models import *
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Create your views here.
 
@@ -14,8 +15,8 @@ class RegistrationView(generics.CreateAPIView):
     serializer_class = RegistrationSerializer
     permission_classes = [AllowAny]
 
-class LoginView(TokenObtainPairView):
-    pass
+class CustomLoginView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 class UserInfoView(APIView):
     permission_classes = [IsAuthenticated]
@@ -28,6 +29,8 @@ class UserInfoView(APIView):
             "first_name":user.first_name,
             "last_name":user.last_name,
             "email":user.email,
+            "is_active":user.is_active,
+            "is_superuser":user.is_superuser
             })
     
 class UserUpdateView(APIView):
@@ -68,6 +71,7 @@ class AddressCreateView(APIView):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser, FormParser]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 

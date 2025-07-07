@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # create your pickyeats serializers here
 
@@ -19,6 +20,29 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+    
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # You can add custom claims here
+        token['username'] = user.username
+        token['is_superuser'] = user.is_superuser
+        token['is_active'] = user.is_active
+
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        # Add extra info to response
+        data['is_superuser'] = self.user.is_superuser
+        data['is_active'] = self.user.is_active
+        data['username'] = self.user.username
+
+        return data
     
     
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -72,6 +96,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    pid = serializers.CharField(read_only=True, required=False)
     class Meta:
         model = Product
         fields = '__all__'

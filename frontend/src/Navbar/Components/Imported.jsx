@@ -107,7 +107,7 @@ const handleImageClick = (fruit) => {
     { id: 9, name: "Papaya", img: papaya, rupees: "80/-" },
     { id: 10, name: "Pineapple", img: pinapple, rupees: "40/-" },
   ];
-
+  
   return (
     <Container>
       <Row>

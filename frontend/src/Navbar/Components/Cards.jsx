@@ -7,12 +7,24 @@ import Freshfruits from './Freshfruits';
 import Dryfruits from './Dryfruits';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import cards from '../css/Cards.module.css'
-function Cards() {
+
+function Cards({onAddToCartGlobal}) {
   const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("userRole");
+    window.location.href = "/login";
+  };
 
 
   return (
     <Container>
+      <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4 text-blue-700">Welcome, Customer!</h2>
+      <p className="mb-4">Browse and order fresh fruit bowls 🍓🍍🍌</p>
+      <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded">
+        Logout
+      </button>
+    </div>
       <Row className="mt-4">
         <Col className="d-flex gap-5 justify-content-center">
           <Link to="/imported"><Button variant="outline-success">Imported fruits</Button></Link>
@@ -25,7 +37,7 @@ function Cards() {
       {/* These sections only show when on home page ("/") */}
      <Row className='mb-5'>
        <h4 className="mt-4">Imported Fruits</h4>
-      <Imported />
+      <Imported onAddToCartGlobal={onAddToCartGlobal} />
       <h4 className="mt-4">Local Fruits</h4>
       <Localfruits />
       <h4 className="mt-4">Fresh Bar</h4>

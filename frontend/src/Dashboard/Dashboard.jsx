@@ -49,6 +49,11 @@ const Cards = [
   { id: 7, total: 18, heading: "Out Of Stock" },
 ];
 
+const handleLogout = () => {
+  localStorage.removeItem("isAdminLoggedIn");
+  window.location.href = "/login";
+};
+
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
 const orders = [
@@ -65,6 +70,12 @@ export default function Dashboard() {
     <Container fluid>
       {/* Heading */}
       <Row className="text-dark p-3 mt-3">
+             <button
+  onClick={handleLogout}
+  className="bg-red-500 text-white px-4 py-2 rounded float-right"
+>
+  Logout
+</button>
         <Col>
           <h3>Fruit Store Admin Dashboard</h3>
         </Col>
