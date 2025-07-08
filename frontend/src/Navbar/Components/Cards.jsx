@@ -15,6 +15,9 @@ function Cards({onAddToCartGlobal}) {
     window.location.href = "/login";
   };
 
+   const handleGlobalAddToCart = () => {
+    console.log("Global Add To Cart triggered");
+  };
 
   return (
     <Container>
@@ -37,13 +40,13 @@ function Cards({onAddToCartGlobal}) {
       {/* These sections only show when on home page ("/") */}
      <Row className='mb-5'>
        <h4 className="mt-4">Imported Fruits</h4>
-      <Imported onAddToCartGlobal={onAddToCartGlobal} />
+      <Imported onAddToCartGlobal={handleGlobalAddToCart}/>
       <h4 className="mt-4">Local Fruits</h4>
-      <Localfruits />
+      <Localfruits onAddToCartGlobal={handleGlobalAddToCart} />
       <h4 className="mt-4">Fresh Bar</h4>
-      <Freshfruits />
+      <Freshfruits onAddToCartGlobal={handleGlobalAddToCart} />
       <h4 className="mt-4">Dry Fruits</h4>
-      <Dryfruits />
+      <Dryfruits onAddToCartGlobal={handleGlobalAddToCart} />
      </Row>
 
     </Container>
