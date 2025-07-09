@@ -24,7 +24,8 @@ class Product(models.Model):
     CATEGORY_CHOICES = [
         ('imported','Imported'),
         ('local','Local'),
-        ('dry_fruits','Dry Fruits')
+        ('dry_fruits','Dry Fruits'),
+        ('juices','Juices')
     ]
     pid = models.CharField(max_length=10, unique=True)
     pname = models.CharField(max_length=40)
